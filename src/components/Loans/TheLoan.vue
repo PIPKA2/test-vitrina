@@ -47,19 +47,20 @@ export default {
   methods: {
     toggleActive(e) {
       if (!this.isActive) {
-        if (this.initSteps < this.finalSteps) {
-          this.isActive = true;
-          this.increaseNum();
-          this.getToEnd();
-          this.showPopup();
-          this.filterActive();
-        } else {
-          e.preventDefault();
-        }
+        this.isActive = true;
+        this.getToEnd();
+        this.showPopup();
+        this.filterActive();
+        // if (this.initSteps < this.finalSteps) {
+        this.increaseNum();
+        // }
       } else {
         e.preventDefault();
         this.isActive = false;
+        // if (this.initSteps <= this.finalSteps) {
         this.decreaseNum();
+        // }
+
         this.clickActiveOffer();
       }
     },

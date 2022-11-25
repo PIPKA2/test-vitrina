@@ -41,6 +41,7 @@ export default {
     return {
       offers: [],
       startSteps: 0,
+      counter: 0,
       maxSteps: 3,
       initProgressBar: 10,
       propgressBarStep: 30,
@@ -67,15 +68,19 @@ export default {
   methods: {
     //increase orders steps
     increaseInitNum() {
-      if (this.startSteps < this.maxSteps) {
+      this.counter++;
+      if (this.counter <= this.maxSteps) {
         this.startSteps++;
         this.initProgressBar += this.propgressBarStep;
       }
     },
     //decrease orders steps
     decreaseInitNum() {
-      this.startSteps--;
-      this.initProgressBar -= this.propgressBarStep;
+      this.counter--;
+      if (this.counter < this.maxSteps) {
+        this.startSteps--;
+        this.initProgressBar -= this.propgressBarStep;
+      }
     },
     // filtered array
     getSortedArr(pos) {
