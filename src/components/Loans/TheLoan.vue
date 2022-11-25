@@ -11,7 +11,7 @@
     </div>
     <div class="bottom">
       <div class="percent">
-        <span>{{ offer.chance }}%</span> /день
+        <span>{{ offer.chance }}%</span> одобрения
       </div>
       <div class="years">{{ offer.subHeader }}</div>
     </div>
@@ -30,7 +30,14 @@
 <script>
 export default {
   props: ["offer", "initSteps", "finalSteps", "offerPos"],
-  emits: ["increase", "decrease", "jumpToEnd", "checkPopup"],
+  emits: [
+    "increase",
+    "decrease",
+    "jumpToEnd",
+    "checkPopup",
+    "filterActive",
+    "clickActive",
+  ],
   data() {
     return {
       isActive: false,
@@ -45,6 +52,7 @@ export default {
           this.increaseNum();
           this.getToEnd();
           this.showPopup();
+          this.filterActive();
         } else {
           e.preventDefault();
         }
@@ -52,6 +60,7 @@ export default {
         e.preventDefault();
         this.isActive = false;
         this.decreaseNum();
+        this.clickActiveOffer();
       }
     },
     increaseNum() {
@@ -65,6 +74,12 @@ export default {
     },
     showPopup() {
       this.$emit("checkPopup", true);
+    },
+    filterActive() {
+      this.$emit("filterActive", this.offer.id);
+    },
+    clickActiveOffer() {
+      this.$emit("clickActive", this.offer.id);
     },
   },
 };
@@ -174,10 +189,11 @@ export default {
   }
 
   .logo {
-    max-width: 98px;
-    height: 24px;
+    max-width: 124px;
+    height: 31px;
     margin: 0;
     justify-content: flex-start;
+    margin-right: 4px;
   }
 
   .top {
@@ -198,12 +214,18 @@ export default {
     line-height: 20px;
   }
   .percent span {
+    display: block;
     font-size: 18px;
     line-height: 21px;
   }
+  .percent {
+    text-align: left;
+  }
   .years {
-    margin-top: 0;
+    max-width: 45%;
+    margin: 0 0 0 12px;
     height: initial;
+    text-align: right;
   }
   .btn-wrapper {
     margin-top: 10px;
