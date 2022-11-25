@@ -9,16 +9,17 @@
           Отправлено {{ initSteps }} из {{ finalSteps }} заявок
         </div>
         <p class="text">
-          Для получения персонального предложения со 100% одобрением отправьте
-          заявку в {{ finalSteps }} компании
+          Получите персональное предложение с максимальной вероятностью
+          одобрения
         </p>
         <div class="btn-wrapper">
           <a
             class="btn"
             :class="`${initSteps === finalSteps ? 'active' : ''}`"
-            href="#"
+            :href="maxOfferLink"
             target="_blank"
-            >Выбрано {{ initSteps }} из {{ finalSteps }}</a
+            @click="getMaxOfferLink(notClicked)"
+            >Оформить займ</a
           >
         </div>
       </div>
@@ -28,7 +29,21 @@
 
 <script>
 export default {
-  props: ["initSteps", "finalSteps", "progressBar"],
+  props: ["initSteps", "finalSteps", "progressBar", "notClicked"],
+  data() {
+    return {
+      maxOfferLink: null,
+    };
+  },
+
+  methods: {
+    getMaxOfferLink(arr) {
+      const maxLinkEl = [...arr].reduce((acc, curr) =>
+        acc.chance > curr.chance ? acc : curr
+      );
+      this.maxOfferLink = maxLinkEl.link;
+    },
+  },
 };
 </script>
 
@@ -85,7 +100,7 @@ export default {
 .btn {
   display: block;
   width: 100%;
-  max-width: 250px;
+  min-width: 250px;
   height: 56px;
   background: #eaeaea;
   border-radius: 10px;
@@ -103,6 +118,7 @@ export default {
   background: #42b28d;
   color: var(--white);
   pointer-events: unset;
+  cursor: pointer;
 }
 @media (max-width: 1200px) {
   .text,
@@ -117,7 +133,7 @@ export default {
 }
 @media (max-width: 768px) {
   .popup {
-    padding: 14px 20px 24px 20px;
+    padding: 16px 20px 24px 20px;
   }
   .wrapper {
     max-width: 100%;
@@ -129,13 +145,13 @@ export default {
   .text {
     margin-top: 12px;
     font-size: 16px;
-    line-height: 16px;
+    line-height: 24px;
   }
   .btn-wrapper {
-    margin-top: 12px;
+    margin-top: 16px;
   }
   .btn {
-    max-width: 160px;
+    min-width: 160px;
     height: 40px;
     font-size: 16px;
     line-height: 25px;

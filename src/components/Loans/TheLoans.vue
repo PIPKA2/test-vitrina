@@ -12,6 +12,8 @@
         @decrease="decreaseInitNum"
         @jumpToEnd="getSortedArr"
         @checkPopup="getActivePopup"
+        @filterActive="filterActiveOffer"
+        @clickActive="addToClickedArr"
       />
     </div>
   </div>
@@ -19,6 +21,7 @@
     :initSteps="startSteps"
     :finalSteps="maxSteps"
     :progressBar="initProgressBar"
+    :notClicked="notClickedArr"
     v-if="popupIsActive"
   />
 </template>
@@ -43,6 +46,8 @@ export default {
       propgressBarStep: 30,
       popupIsActive: false,
       sortedArr: null,
+      notClickedArr: null,
+      clickedArr: [],
     };
   },
   created() {
@@ -101,6 +106,19 @@ export default {
           }
         };
       }
+    },
+    //remove active offer
+    filterActiveOffer(id) {
+      const copyArr = [
+        ...(this.notClickedArr ? this.notClickedArr : this.sortedArr),
+      ].filter((item) => item.id !== id);
+      this.notClickedArr = copyArr;
+    },
+    // create clicked offers arr
+    addToClickedArr(id) {
+      const notActive = [...this.sortedArr].filter((item) => item.id === id);
+      const newArr = this.notClickedArr.concat(notActive);
+      this.notClickedArr = newArr;
     },
   },
   computed: {
