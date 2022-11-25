@@ -15,7 +15,7 @@
         <div class="btn-wrapper">
           <a
             class="btn"
-            :class="`${initSteps === finalSteps ? 'active' : ''}`"
+            :class="`${initSteps >= finalSteps ? 'active' : ''}`"
             :href="maxOfferLink"
             target="_blank"
             @click="getMaxOfferLink(notClicked)"
