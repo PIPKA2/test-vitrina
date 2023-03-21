@@ -52,10 +52,10 @@ export default {
     };
   },
   created() {
-    this.goBack("https://yescash.ru");
+    this.goBack("https://yescash.ru" + window.location.search);
     // get data
     axios
-      .get("/api/final")
+      .get("/api/final" + window.location.search)
       .then((res) => {
         if (Object.prototype.hasOwnProperty.call(res.data, "targets")) {
           this.offers = Object.freeze(res.data.targets.default);
